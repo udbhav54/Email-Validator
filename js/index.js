@@ -1,13 +1,5 @@
 console.log("This is my script");
 
-submitBtn.addEventListener("click", ()=> {
-  console.log("Cicked!");
-  
-})
-key = ""
-
-let url = ``
-
 let result = {
   "tag": "",
   "free": true,
@@ -24,14 +16,29 @@ let result = {
   "smtp_check": true,
   "did_you_mean": "",
   "format_valid": true
-
 }
 
-let str = ``;
-for (key of Object.keys(result)) {
-  str = str + `<div>${key}: ${result[key]}</div>` 
-}
+submitBtn.addEventListener("click", async ()=> {
+  console.log("Cicked!");
+  resultCont.innerHTML = `<img src="/img/loading.svg" alt="" width="233">`;
+  
+  let key = "ema_live_blPsTyAk3sVBCbrqBbHdqqbl7ReSaVUbLSrrRfX4";
+  let email = document.getElementById("username").value
+  
+  let url = `https://api.emailvalidation.io/v1/info?apikey=${key}&email=${email}`;
+  let res = await fetch(url)
+  let result = await res.json()
+  let str = ``;
+  for (key of Object.keys(result)) {
+    if(result[key] !== "" && result[key] !== " ") {
+      str = str + `<div>${key}: ${result[key]}</div>`;
+    }
+  }
 
-console.log(str);
-resultCont.innerHTML = str
+  console.log(str);
+  resultCont.innerHTML = str;
+})
+
+
+
 
